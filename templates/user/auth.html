@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                {% if user.is_authenticated %}
+                    <h3 class="title has-text-black">    
+                        Добро пожаловать {{ user }}!
+                    </h3>
+                    Теперь вы можете <br />
+                    <a href="{% url 'main:index' %}">перейти на главную страницу</a>.
+                {% else %}
+                    Ошибка входа, возможно ссылка устарела. <a href="{% url 'userapp:login' %}">Попробуйте еще раз</a>. Или обратитесь в поддержку.
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

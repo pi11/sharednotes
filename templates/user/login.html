@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                {% if sended %}
+                    <h3 class="title has-text-black">Ура!</h3>
+                    На ваш адрес электронной почты выслано письмо для авторизации.
+                    <br />
+                    Просто пройдите по ссылке из письма для авторизации на сайте.<br />
+                    У нас нет паролей, каждый раз для авторизации используется почта.<br />
+
+                    p.s. Иногда письма попадают в спам - поэтому рекомендуем добавить нашу почту <b>{{ support_email }}</b> в список контактов.
+                {% else %}
+                    <div class="column is-4 is-offset-4">
+                        <h3 class="title has-text-black">Вход / Регистрация</h3>
+                        <p class="subtitle has-text-black">Для регистрации введите адрес электронной почты и ваш инвайт. <br />
+                        <b><i>Если вы уже зарегистрированы, вводить инвайт не нужно.</i></b></p> 
+                    <div class="box">
+                        <figure class="avatar">
+                            <img src="{{ STATIC_URL }}img/logo.png" width="70px;">
+                        </figure>
+                        <form action="{% url 'userapp:login' %}" method="post">
+                            {% csrf_token %}
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-large" type="email" placeholder="Адрес электронной почты" autofocus="" name="email" value="{% if form.email.value %}{{ form.email.value }}{% endif %}" >
+                                    {% if form.email.errors %}
+                                        <span class="has-text-danger">{{ form.email.errors }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-large" type="text" placeholder="Инвайт" name="invite" value="{% if form.invite.value %}{{ form.invite.value }}{% endif %}" >
+                                    {% if form.invite.errors %}
+                                        <span class="has-text-danger">{{ form.invite.errors }}</span>
+                                    {% endif %}
+                                    
+                                </div>
+                            </div> 
+                            <!--<div class="field">
+                                 <label class="checkbox">
+                                 <input type="checkbox">
+                                 Запомнить меня
+                                 </label>
+                                 </div>-->
+                            
+                            <button class="button is-block is-info is-large is-fullwidth">Войти <i class="fa fa-sign-in" aria-hidden="true"></i></button>
+                            <div class="field">
+                                <div class="control">
+                                    <br />
+                                    Если к вашему аккаунту уже подключен телеграм бот, просто отправьте ему любое сообщение, и он пришлёт ссылку для авторизации:
+                                    <a class="button is-block is-primary is-large is-fullwidth" href="tg://resolve?domain={{ auth_tg_bot }}" class="tgme_action_button">Войти через TG бота</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <p class="has-text-grey">
+                        <a href="/">Главная страница</a> &nbsp;·&nbsp;
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
