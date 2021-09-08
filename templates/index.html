@@ -1,8 +1,17 @@
-{% extends base.html %}
+{% extends "base.html" %}
 {% block content %}
+    {% if user.is_authenticated %}
     <ul>
     {% for n in notes %}
-        <li><a href="{% url 'page' slug=n.slug %}">{{ n }}</a></li>
+        <li><a href="{% url 'main:page' slug=n.slug %}">{{ n }}</a></li>
     {% endfor %}
     </ul>
+    <hr />
+    Добавить страницу: <br />
+    <form action="{% url 'main:add_page' %}" method="post" >{% csrf_token %}
+        Название: <input type="text" placeholder="Тайтл новой страницы" name="title" />
+    </form>
+    {% else %}
+    <a href="">Войти</a>
+    {% endif %}
 {% endblock %}
